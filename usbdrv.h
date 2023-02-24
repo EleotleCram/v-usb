@@ -189,6 +189,10 @@ extern "C" {
 
 struct usbRequest;  /* forward declaration */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 USB_PUBLIC void usbInit(void);
 /* This function must be called before interrupts are enabled and the main
  * loop is entered. We exepct that the PORT and DDR bits for D+ and D- have
@@ -308,6 +312,10 @@ USB_PUBLIC uchar usbFunctionRead(uchar *data, uchar len);
  * to 1 in usbconfig.h and return 0xff in usbFunctionSetup()..
  */
 #endif /* USB_CFG_IMPLEMENT_FN_READ */
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 extern uchar usbRxToken;    /* may be used in usbFunctionWriteOut() below */
 #if USB_CFG_IMPLEMENT_FN_WRITEOUT
