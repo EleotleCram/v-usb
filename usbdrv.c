@@ -7,6 +7,11 @@
  * License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
  */
 
+#include <Arduino.h>
+#include <util/delay.h>
+#include <avr/interrupt.h>
+#include <avr/pgmspace.h>
+
 #include "usbdrv.h"
 #include "oddebug.h"
 
@@ -567,6 +572,27 @@ uchar           isReset = !notResetState;
 #else
     notResetState = notResetState;  // avoid compiler warning
 #endif
+}
+
+/* ------------------------------------------------------------------------- */
+
+USB_PUBLIC void usbWake(void)
+{
+    // send USB remote wakeup by signalling SE0 (both D+ and D- low) for 10 ms
+    unsigned char tmpPORTB = PORTB;
+    unsigned char tmpDDRB = DDRB;
+
+    usbPoll();
+
+    cli(); // disable interrupts, prevent V-USB from interfering
+    PORTB = (tmpPORTB & ~(1 << USB_CFG_DMINUS_BIT)) | (1 << USB_CFG_DPLUS_BIT);
+    DDRB |= ((1 << USB_CFG_DPLUS_BIT) | (1 << USB_CFG_DMINUS_BIT));
+    _delay_ms(10);
+    PORTB = tmpPORTB;
+    DDRB = tmpDDRB;
+    sei();
+
+    usbPoll();
 }
 
 /* ------------------------------------------------------------------------- */

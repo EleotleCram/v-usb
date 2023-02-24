@@ -206,6 +206,12 @@ USB_PUBLIC void usbPoll(void);
  * Please note that debug outputs through the UART take ~ 0.5ms per byte
  * at 19200 bps.
  */
+USB_PUBLIC void usbWake(void);
+/* This function must be called to issue an USB remote wake up signal to
+ * the host. Only call when suspended, otherwise results are undetermined.
+ * Make sure OS has granted wakeup rights. (e.g. HID System Control).
+ * May need to reinitialize USB after wake.
+ */
 extern usbMsgPtr_t usbMsgPtr;
 /* This variable may be used to pass transmit data to the driver from the
  * implementation of usbFunctionWrite(). It is also used internally by the
