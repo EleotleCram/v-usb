@@ -124,7 +124,6 @@ USB messages, even if they address another (low-speed) device on the same bus.
 extern "C" {
 #endif
 
-#include "usbconfig.h"
 #include "usbportability.h"
 
 #ifdef __cplusplus
