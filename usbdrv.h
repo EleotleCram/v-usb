@@ -319,10 +319,6 @@ USB_PUBLIC uchar usbFunctionRead(uchar *data, uchar len);
  */
 #endif /* USB_CFG_IMPLEMENT_FN_READ */
 
-#ifdef __cplusplus
-} // extern "C"
-#endif
-
 extern uchar usbRxToken;    /* may be used in usbFunctionWriteOut() below */
 #if USB_CFG_IMPLEMENT_FN_WRITEOUT
 USB_PUBLIC void usbFunctionWriteOut(uchar *data, uchar len);
@@ -332,6 +328,11 @@ USB_PUBLIC void usbFunctionWriteOut(uchar *data, uchar len);
  * usbconfig.h to get this function called.
  */
 #endif /* USB_CFG_IMPLEMENT_FN_WRITEOUT */
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
 #ifdef USB_CFG_PULLUP_IOPORTNAME
 #define usbDeviceConnect()      ((USB_PULLUP_DDR |= (1<<USB_CFG_PULLUP_BIT)), \
                                   (USB_PULLUP_OUT |= (1<<USB_CFG_PULLUP_BIT)))
